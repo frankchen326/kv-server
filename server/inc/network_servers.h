@@ -20,10 +20,12 @@
 #include <thread>
 #include <array>
 
+#ifndef PLATFORM_WINDOWS
 class ReactorServer : public NetworkServer {
 public:
     void start(int port, MessageHandler handler) override;
 };
+#endif
 
 #ifndef PLATFORM_WINDOWS
 class IOUringServer : public NetworkServer {
@@ -44,7 +46,7 @@ private:
     };
 
     static void yield();
-    static void coro_func();
+    static void resume();
 
     static std::vector<Coroutine*> coros;
     static std::queue<int> ready_q;

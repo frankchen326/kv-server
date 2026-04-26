@@ -14,8 +14,8 @@
 #define MAX_CONNECTIONS 1024
 constexpr int BATCH_SIZE = 128;
 
-void ReactorServer::start(int port, MessageHandler handler) {
 #ifndef PLATFORM_WINDOWS
+void ReactorServer::start(int port, MessageHandler handler) {
     int listen_fd = socket(AF_INET, SOCK_STREAM, 0);
     int opt = 1;
     setsockopt(listen_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
@@ -203,7 +203,7 @@ void CoroutineServer::yield() {
     swapcontext(&coros[ready_q.back()]->ctx, &main_ctx);
 }
 
-void CoroutineServer::coro_func() {
+void CoroutineServer::resume() {
     int id = current_id;
     Coroutine* co = coros[id];
     char buff[1024];
@@ -249,7 +249,7 @@ void CoroutineServer::start(int port, MessageHandler handler) {
             co->fd = client_fd;
             co->handler = handler;
             co->active = true;
-            makecontext(&co->ctx, coro_func, 0);
+            makecontext(&co->ctx, resume, 0);
             int id = coros.size();
             coros.push_back(co);
             ready_q.push(id);
