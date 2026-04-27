@@ -1,28 +1,25 @@
-# 编译产物目录
-build/
-
-# 中间目标文件
+# 编译产物
 *.o
-*.out
 *.obj
 *.exe
+kv_server
+kv_server_cpp
+*.out
+*.dll
+*.so
 
-# 可执行程序
-server/kv_server
-client/kv_client
-
-# 临时文件 & 日志
-*.swp
-*.swo
-*~
-*.log
-
-# IDE/编辑器配置
+# IDE配置文件
 .vscode/
+.vs/
 .idea/
-.clangd/
-.ccls-cache/
+CMakeLists.txt.user
+build/
+Debug/
+Release/
+out/
 
-# 系统临时文件
+# 临时文件
+*.log
+*.tmp
 .DS_Store
 Thumbs.db
